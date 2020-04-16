@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Cisco Configuration Register Calculator</title>
+  <script type="text/javascript" src="cisco-confreg.js"></script>
+  <script type="text/javascript">
+    CiscoConfreg.init();
+  </script>
+</head>
+
+<body>
+  <h1>Cisco Configuration Register Calculator</h1>
+  <p>
+    <label>
+      Configuration register value:
+      0x<input type="text" id="ccrc-confreg" pattern="^[0-9a-fA-F]{0,4}$" placeholder="2102" />
+    </label>
+  </p>
+  <p>&downarrow;&uparrow;</p>
+  <p>
+    <label>
+      Boot behavior:
+      <select id="ccrc-bootbeh" class="ccrc-twiddle" data-mask="000f">
+        <option value="0000">stay at bootstrap prompt</option>
+        <option value="0001">boot first image in onboard flash/EPROM</option>
+        <option value="0002">boot first image from boot variable (recommended)</option>
+        <option value="0003">boot second image from boot variable</option>
+        <option value="0004">boot third image from boot variable</option>
+        <option value="0005">boot fourth image from boot variable</option>
+        <option value="0006">boot fifth image from boot variable</option>
+        <option value="0007">boot sixth image from boot variable</option>
+        <option value="0008">boot seventh image from boot variable</option>
+        <option value="0009">boot eighth image from boot variable</option>
+        <option value="000a">boot ninth image from boot variable</option>
+        <option value="000b">boot tenth image from boot variable</option>
+        <option value="000c">boot eleventh image from boot variable</option>
+        <option value="000d">boot twelveth image from boot variable</option>
+        <option value="000e">boot thirteenth image from boot variable</option>
+        <option value="000f">boot fourteenth image from boot variable</option>
+      </select>
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-unkn4" class="ccrc-twiddle" value="0010" />
+      Unknown bit 4
+    </label>
+  </p>
+  <p>
+    <label>
+      Console baud rate:
+      <select id="ccrc-conbaud" class="ccrc-twiddle" data-mask="1820">
+        <option value="1000">1200</option>
+        <option value="1800">2400</option>
+        <option value="0800">4800</option>
+        <option value="0000">9600</option>
+        <option value="0020">19200</option>
+        <option value="0820">38400</option>
+        <option value="1020">57600</option>
+        <option value="1820">115200</option>
+      </select>
+    </label>
+    (not all options are supported by all devices)
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-ign-nvram" class="ccrc-twiddle" value="0040" />
+      Ignore NVRAM contents
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-disa-boot-msgs" class="ccrc-twiddle" value="0080" />
+      Disable boot messages
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-disa-break" class="ccrc-twiddle" value="0100" />
+      Disable break
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-use-sec-bootstrap" class="ccrc-twiddle" value="0200" />
+      Use secondary bootstrap
+    </label>
+    (do devices still have this?)
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-bcast-zeros" class="ccrc-twiddle" value="0400" />
+      IP broadcast with all zeroes
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-net-fallback" class="ccrc-twiddle" value="2000" />
+      Boot default ROM software if network boot fails
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-bcast-no-net" class="ccrc-twiddle" value="4000" />
+      IP broadcasts do not have net numbers
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" id="ccrc-diag-msg" class="ccrc-twiddle" value="8000" />
+      Enable diagnostic messages and ignore NVRAM contents
+    </label>
+  </p>
+</body>
+
+</html>
