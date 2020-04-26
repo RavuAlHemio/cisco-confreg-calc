@@ -1,6 +1,8 @@
+"use strict";
 var CiscoConfreg;
 (function (CiscoConfreg) {
     function registerFromTwiddles() {
+        var _a;
         var twiddles = document.querySelectorAll(".ccrc-twiddle");
         var finalValue = 0;
         for (var i = 0; i < twiddles.length; i++) {
@@ -9,7 +11,10 @@ var CiscoConfreg;
                 var selectTwiddle = twiddle;
                 var opts = selectTwiddle.selectedOptions;
                 for (var j = 0; j < opts.length; j++) {
-                    var valStr = opts.item(j).value;
+                    var valStr = (_a = opts.item(j)) === null || _a === void 0 ? void 0 : _a.value;
+                    if (valStr === undefined) {
+                        continue;
+                    }
                     var val = parseInt(valStr, 16);
                     // tslint:disable-next-line: no-bitwise
                     finalValue = finalValue | val;
@@ -43,16 +48,22 @@ var CiscoConfreg;
             if (twiddle.tagName.toLowerCase() === "select") {
                 var selectTwiddle = twiddle;
                 var maskStr = selectTwiddle.getAttribute("data-mask");
+                if (maskStr === null) {
+                    continue;
+                }
                 var mask = parseInt(maskStr, 16);
                 // tslint:disable-next-line: no-bitwise
                 var confregOpt = confreg & mask;
                 var opts = selectTwiddle.options;
                 for (var j = 0; j < opts.length; j++) {
+                    var option = opts.item(j);
+                    if (option === null) {
+                        continue;
+                    }
                     // select the option where the masked value matches
-                    var valStr = opts.item(j).value;
+                    var valStr = option.value;
                     var val = parseInt(valStr, 16);
-                    // tslint:disable-next-line: no-bitwise
-                    opts.item(j).selected = (val === confregOpt);
+                    option.selected = (val === confregOpt);
                 }
             }
             else if (twiddle.tagName.toLowerCase() === "input") {

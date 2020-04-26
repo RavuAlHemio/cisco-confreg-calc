@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "module": "None",
-        "sourceMap": true
+        "sourceMap": true,
+        "strict": true
     }
 }

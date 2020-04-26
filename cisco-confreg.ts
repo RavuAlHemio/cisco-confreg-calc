@@ -1,3 +1,4 @@
+"use strict";
 module CiscoConfreg {
     function registerFromTwiddles(): void {
         let twiddles: NodeListOf<Element> = document.querySelectorAll(".ccrc-twiddle");
@@ -8,7 +9,11 @@ module CiscoConfreg {
                 let selectTwiddle: HTMLSelectElement = <HTMLSelectElement>twiddle;
                 let opts: HTMLCollectionOf<HTMLOptionElement> = selectTwiddle.selectedOptions;
                 for (let j: number = 0; j < opts.length; j++) {
-                    let valStr: string = opts.item(j).value;
+                    let valStr: string|undefined = opts.item(j)?.value;
+                    if (valStr === undefined) {
+                        continue;
+                    }
+
                     let val: number = parseInt(valStr, 16);
                     // tslint:disable-next-line: no-bitwise
                     finalValue = finalValue | val;
@@ -43,19 +48,26 @@ module CiscoConfreg {
             let twiddle: Element = twiddles.item(i);
             if (twiddle.tagName.toLowerCase() === "select") {
                 let selectTwiddle: HTMLSelectElement = <HTMLSelectElement>twiddle;
-                let maskStr: string = selectTwiddle.getAttribute("data-mask");
+                let maskStr: string|null = selectTwiddle.getAttribute("data-mask");
+                if (maskStr === null) {
+                    continue;
+                }
                 let mask: number = parseInt(maskStr, 16);
                 // tslint:disable-next-line: no-bitwise
                 let confregOpt: number = confreg & mask;
 
                 let opts: HTMLCollectionOf<HTMLOptionElement> = selectTwiddle.options;
                 for (let j: number = 0; j < opts.length; j++) {
+                    let option: HTMLOptionElement|null = opts.item(j);
+                    if (option === null) {
+                        continue;
+                    }
+
                     // select the option where the masked value matches
-                    let valStr: string = opts.item(j).value;
+                    let valStr: string = option.value;
                     let val: number = parseInt(valStr, 16);
 
-                    // tslint:disable-next-line: no-bitwise
-                    opts.item(j).selected = (val === confregOpt);
+                    option.selected = (val === confregOpt);
                 }
             } else if (twiddle.tagName.toLowerCase() === "input") {
                 let inputTwiddle: HTMLInputElement = <HTMLInputElement>twiddle;
@@ -76,7 +88,7 @@ module CiscoConfreg {
             (<HTMLInputElement>twiddles.item(i)).addEventListener("input", registerFromTwiddles);
         }
 
-        document.getElementById("ccrc-confreg").addEventListener("input", twiddlesFromRegister);
+        (<HTMLInputElement>document.getElementById("ccrc-confreg")).addEventListener("input", twiddlesFromRegister);
     }
 
     export function init(): void {
